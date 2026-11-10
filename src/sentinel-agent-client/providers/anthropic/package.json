@@ -1,0 +1,7 @@
+{
+  "name": "sentinel-anthropic-provider",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": { "@anthropic-ai/sdk": "0.71.2" }
+}

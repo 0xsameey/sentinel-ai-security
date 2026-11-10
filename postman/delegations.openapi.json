@@ -1,0 +1,862 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Sentinel Milestone 5B additive delegation API",
+    "version": "5B",
+    "description": "Owner-approved APIs remain unchanged. Amounts and nanoseconds are decimal strings. Transfer settlement is reconstructed from chain payment status and delegation binding. Worker reports remain unverified."
+  },
+  "paths": {
+    "/api/v1/delegations": {
+      "get": {
+        "summary": "List up to 100 indexed delegation IDs",
+        "security": [
+          {
+            "walletJwt": []
+          },
+          {
+            "agentKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        }
+      },
+      "post": {
+        "summary": "Prepare an owner-wallet create_delegation call; does not create chain authority",
+        "security": [
+          {
+            "walletJwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDelegation"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/delegations/{id}": {
+      "get": {
+        "summary": "Fresh finalized delegation state and up to 100 tracked proposals",
+        "security": [
+          {
+            "walletJwt": []
+          },
+          {
+            "agentKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/delegations/{id}/revoke": {
+      "post": {
+        "summary": "Prepare an owner-wallet revocation call",
+        "security": [
+          {
+            "walletJwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/delegations/proposals": {
+      "post": {
+        "summary": "Deterministically assess and persist a delegated proposal",
+        "security": [
+          {
+            "walletJwt": []
+          },
+          {
+            "agentKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Proposal"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/delegations/payments/{id}": {
+      "get": {
+        "summary": "Inspect persisted intent, decision, permit/approval and evidence state",
+        "security": [
+          {
+            "walletJwt": []
+          },
+          {
+            "agentKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/delegations/payments/{id}/reassess": {
+      "post": {
+        "summary": "Reassess from current independent facts",
+        "security": [
+          {
+            "walletJwt": []
+          },
+          {
+            "agentKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/delegations/payments/{id}/reconcile": {
+      "post": {
+        "summary": "Reconcile from current independent facts",
+        "security": [
+          {
+            "walletJwt": []
+          },
+          {
+            "agentKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/delegations/payments/{id}/approve": {
+      "post": {
+        "summary": "Authenticated human WARN approval with fresh fingerprint, expires in two minutes",
+        "security": [
+          {
+            "walletJwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Approval"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/delegated-agent/tasks": {
+      "post": {
+        "summary": "Run bounded provider-independent task; ALLOW can dispatch autonomously",
+        "security": [
+          {
+            "walletJwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/delegated-agent/payments/{id}/dispatch": {
+      "post": {
+        "summary": "Revalidate and dispatch via server-controlled isolated signer",
+        "security": [
+          {
+            "walletJwt": []
+          },
+          {
+            "agentKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ]
+      }
+    },
+    "/api/internal/agent/delegated-payments/{id}/prepare-execution": {
+      "post": {
+        "summary": "prepare-execution; worker cannot grant authority or approve WARN",
+        "security": [
+          {
+            "workerKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ]
+      }
+    },
+    "/api/internal/agent/delegated-payments/{id}/consume-permit": {
+      "post": {
+        "summary": "consume-permit; worker cannot grant authority or approve WARN",
+        "security": [
+          {
+            "workerKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsumePermit"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/internal/agent/delegated-payments/{id}/report-transaction": {
+      "post": {
+        "summary": "report-transaction; worker cannot grant authority or approve WARN",
+        "security": [
+          {
+            "workerKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted/observed data or prepared call; never implicit settlement"
+          },
+          "400": {
+            "description": "Invalid fields"
+          },
+          "401": {
+            "description": "Missing authentication"
+          },
+          "403": {
+            "description": "Actor is not authorized"
+          },
+          "409": {
+            "description": "Changed authority, expired/used permit, or claim conflict"
+          },
+          "422": {
+            "description": "BLOCK or human review required"
+          },
+          "503": {
+            "description": "Dependency unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Report"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "walletJwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "agentKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Sentinel-Agent-Key"
+      },
+      "workerKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Sentinel-Worker-Key"
+      }
+    },
+    "schemas": {
+      "Intent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "recipient",
+          "amountYocto",
+          "expiresAtNs",
+          "purpose"
+        ],
+        "properties": {
+          "recipient": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 64
+          },
+          "amountYocto": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,38}$"
+          },
+          "expiresAtNs": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,19}$"
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
+      },
+      "CreateDelegation": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "agent",
+          "maxPayment",
+          "budget",
+          "dailyLimit",
+          "expiresAtNs",
+          "recipients"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$"
+          },
+          "agent": {
+            "type": "string"
+          },
+          "maxPayment": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "string"
+          },
+          "dailyLimit": {
+            "type": "string"
+          },
+          "expiresAtNs": {
+            "type": "string"
+          },
+          "recipients": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 16,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Proposal": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "delegationId",
+          "intent"
+        ],
+        "properties": {
+          "delegationId": {
+            "type": "string"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/Intent"
+          }
+        }
+      },
+      "Approval": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fingerprint",
+          "confirm"
+        ],
+        "properties": {
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "confirm": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        }
+      },
+      "ConsumePermit": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "permitId",
+          "intentHash"
+        ],
+        "properties": {
+          "permitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "intentHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "delegationId",
+          "task",
+          "recipient",
+          "maxAmountYocto"
+        ],
+        "properties": {
+          "delegationId": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "recipient": {
+            "type": "string"
+          },
+          "maxAmountYocto": {
+            "type": "string"
+          }
+        }
+      },
+      "Report": {
+        "type": "object",
+        "required": [
+          "transactionHash",
+          "operation"
+        ],
+        "properties": {
+          "transactionHash": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "Execution"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

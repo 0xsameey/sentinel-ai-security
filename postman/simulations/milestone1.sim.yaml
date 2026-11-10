@@ -1,0 +1,6 @@
+simulation: sentinel-milestone1
+routing: path
+mocks:
+  - name: NEAR testnet RPC fixture
+    routeKey: near
+    path: postman/mocks/near

@@ -1,0 +1,33 @@
+{
+  "status": "proposal only; no approval received and no changes performed",
+  "evidenceBlockHeight": 276032369,
+  "agentKey": {
+    "accountId": "0xsameey-agent.testnet",
+    "configuredPublicKey": "ed25519:6a1kBiLSJpgViwFC8ZKZyW4N4cev9DbDXTy5Uz6k6jZA",
+    "finding": "Configured key is absent from the account at the diagnostic block",
+    "preferredCorrection": "First verify whether an existing narrowly restricted key has a securely held private key; configure the isolated signer to use it only after approval",
+    "alternativeCorrection": "If no suitable existing key is available, have the agent account administrator add a fresh dedicated FunctionCall key after explicit approval",
+    "proposedPermission": {
+      "receiver_id": "0xsameey-sentinel-v2.testnet",
+      "method_names": ["execute_payment"],
+      "allowance": "5000000000000000000000"
+    },
+    "allowanceNear": "0.005",
+    "notes": [
+      "Allowance is a gas-spending cap, not a deposit or treasury payment limit",
+      "Refresh the gas estimate and verify agent native balance before approval",
+      "Preserve all existing keys; do not use a full-access key in the worker",
+      "Do not blindly re-add the missing key; its prior removal reason is unknown",
+      "No private key has been generated, displayed, replaced or uploaded"
+    ]
+  },
+  "contract": {
+    "accountId": "0xsameey-sentinel-v2.testnet",
+    "finding": "Deployed bytes exactly reproduce current source with the 24-hour authorization-expiry check removed",
+    "preferredCorrection": "Review a controlled upgrade to the current-source optimized artifact, with state-preservation checks and separate explicit approval before deployment",
+    "stateLayoutDifferenceInReproduction": false,
+    "migration": "No state field change in the reproduced delta; do not automatically invoke the legacy migrate method",
+    "paymentPreparationBlocked": true,
+    "deployedOrModified": false
+  }
+}

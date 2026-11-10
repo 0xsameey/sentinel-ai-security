@@ -1,0 +1,96 @@
+from pathlib import Path
+p=Path('src/sentinel-dashboard/src/App.tsx')
+s=p.read_text(encoding='utf-8')
+start=s.index('function yoctoToNear')
+s='''import { useCallback, useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
+import PolicyManager from "./components/PolicyManager";
+import AgentTaskPanel from "./components/AgentTaskPanel";
+import DelegationManager from "./components/DelegationManager";
+import {PaymentActivity} from "./components/PaymentActivity";
+import {CopyValue,EmptyState,Feedback,PaymentStatus,RiskDecisionCard,StatusBadge,TechnicalDetails,ExplorerLink} from "./components/ui";
+import {usePaymentActivity} from "./hooks/usePaymentActivity";
+import {nearDisplay,lifecycle} from "./presentation";
+import {signContractCall,MANUAL_TESTING,type NearContractCall} from "./services/nearTransactions";
+import {useWalletAuth} from "./hooks/useWalletAuth";
+import {Activity,ArrowRight,ArrowUpRight,Check,ChevronRight,Fingerprint,Gauge,LayoutDashboard,LockKeyhole,Menu,RefreshCw,Shield,ShieldAlert,ShieldCheck,Sparkles,Wallet,X} from "lucide-react";
+import {sentinelApi,type ContractConfig,type SpendingPolicy,type RiskAssessment,type Payment,type PreparedPayment} from "./api";
+import "./App.css";
+
+'''+s[start:]
+s=s.replace('label: "Risk assessment"','label: "Risk assessment"').replace('label: "AI payment agent"','label: "AI payments"').replace('label: "Security policies"','label: "Security & delegations"')
+s=s.replace('  const [paymentMode,setPaymentMode]', '  const [revision,setRevision]=useState(0);\n  const [policyTab,setPolicyTab]=useState<"global"|"delegations">("global");\n  const [selectedDelegation,setSelectedDelegation]=useState("");\n  const observed=usePaymentActivity(tokenForActivity(),revision);\n  function tokenForActivity():string|null { return null; }\n  const [paymentMode,setPaymentMode]',1)
+# Hook must read the existing wallet token after the auth hook, not create a second auth flow.
+s=s.replace('  const observed=usePaymentActivity(tokenForActivity(),revision);\n  function tokenForActivity():string|null { return null; }\n','')
+s=s.replace('  const [config, setConfig]', '  const observed=usePaymentActivity(token,revision);\n  const [config, setConfig]',1)
+old='''    document
+      .getElementById(id)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });'''
+s=s.replace(old,'''    window.scrollTo({top:0,behavior:"instant"});
+    requestAnimationFrame(()=>document.getElementById("page-content")?.focus({preventScroll:true}));''')
+render=s.index('  return (\n    <div className="app-shell"')
+s=s[:render]+'''  const pageTitle=navigation.find(item=>item.id===currentNav)?.label??"Overview";
+  const subtitles:Record<NavId,string>={overview:"Your AI payments, protected and under control.",assessment:"Understand a payment's risk before taking the next step.",agent:"Give your agent a task. Keep control of how it pays.",payments:"Follow each payment from proposal to verified settlement.",policies:"Set the boundaries your agent must work within."};
+  const pending=observed.payments.filter(p=>lifecycle(p.status,p.decision,JSON.parse(p.intentJson).ExpiresAtNs).label==="Needs review");
+  const latest=observed.payments[0];
+  const activeView=observed.views.find(v=>v.id===selectedDelegation);
+  const refreshActivity=()=>setRevision(value=>value+1);
+  return <div className="app-shell">
+    <a className="skip-link" href="#page-content">Skip to content</a>
+    <aside className={`sidebar ${menuOpen?"open":""}`}>
+      <div className="logo"><div className="logo-symbol"><ShieldCheck size={25}/></div><div><span className="logo-name">sentinel<span className="logo-dot">.</span></span><span className="logo-caption">AI PAYMENT SECURITY</span></div></div>
+      <div className="sidebar-label">WORKSPACE</div>
+      <nav className="side-nav" aria-label="Main navigation">{navigation.map(({id,label,Icon})=><button key={id} className={`nav-item ${currentNav===id?"active":""}`} aria-current={currentNav===id?"page":undefined} onClick={()=>navigate(id)}><Icon size={18} strokeWidth={1.8}/><span>{label}</span></button>)}</nav>
+      <div className="sidebar-bottom"><div className="sidebar-note"><Shield size={17}/><p>Owner-defined rules.<br/>Enforced on NEAR.</p></div><span className="sidebar-footer">Sentinel · Testnet workspace</span></div>
+    </aside>
+    {menuOpen&&<button className="mobile-scrim" aria-label="Close navigation" onClick={()=>setMenuOpen(false)}/>}
+    <div className="workspace">
+      <header className="topbar"><div className="top-left"><button className="icon-button mobile-menu" aria-label={menuOpen?"Close navigation":"Open navigation"} aria-expanded={menuOpen} onClick={()=>setMenuOpen(!menuOpen)}>{menuOpen?<X size={19}/>:<Menu size={19}/>}</button><span className="breadcrumb">Workspace</span><ChevronRight size={14}/><span className="breadcrumb-current">{pageTitle}</span></div>
+        <div className="top-right"><span className="environment-pill">NEAR Testnet</span><div className="top-wallet">{!accountId?<button className="primary-button" onClick={()=>void connect()} disabled={walletLoading}><Wallet size={15}/>{walletLoading?"Connecting…":"Connect wallet"}</button>:<><span className="wallet-account" title={accountId}>{accountId.length>26?`${accountId.slice(0,12)}…${accountId.slice(-9)}`:accountId}</span>{!token?<button className="primary-button" disabled={walletLoading} onClick={()=>void authenticate()}><Fingerprint size={15}/>{walletLoading?"Signing in…":"Sign in"}</button>:<span className="auth-status"><Check size={13}/>Signed in</span>}<button className="text-button" onClick={()=>void disconnect()}>Disconnect</button></>}</div></div>
+      </header>
+      <main className="content" id="page-content" tabIndex={-1}>
+        <div className="page-intro"><div><span className="eyebrow">SENTINEL WORKSPACE</span><h1>{pageTitle}</h1><p>{subtitles[currentNav]}</p></div><button className="outline-button sync-button" disabled={loading} onClick={()=>{void refresh();refreshActivity();}}><RefreshCw size={15} className={loading?"spin":""}/>{loading?"Refreshing…":"Refresh"}</button></div>
+        {(error||walletError)&&<Feedback message={error||walletError||""} error/>}
+        {notice&&<Feedback message={notice}/>}
+        {MANUAL_TESTING&&<div className="feedback">Inspection mode: wallet transactions and payment dispatch are disabled.</div>}
+
+        <div hidden={currentNav!=="overview"} className="page-view" aria-label="Overview">
+          <div className="overview-intro"><div><span className="section-kicker">ON-CHAIN SPENDING CONTROL</span><h2>AI payments. Your rules.</h2><p>Agents propose and pay within your boundaries. Sentinel checks the risk, enforces spending limits and keeps the evidence.</p></div><button className="primary-button" onClick={()=>navigate("agent")}>Open AI payments<ArrowRight size={15}/></button></div>
+          <section className="metrics" aria-label="Observed security metrics">
+            <MetricCard label="Available treasury" value={config?`${nearDisplay(balance)} NEAR`:"Unavailable"} detail="Available contract funds" Icon={Wallet} loading={loading}/>
+            <MetricCard label="Contract protection" value={config?(config.paused?"Paused":"Active"):"Unavailable"} detail={config?(config.paused?"Execution paused by owner":"Spending rules enforced on chain"):"Refresh to check network status"} Icon={ShieldCheck} accent={config?.paused?"amber":"green"} loading={loading}/>
+            <MetricCard label="Maximum payment" value={policy?`${nearDisplay(policy.maxPerTransactionYocto)} NEAR`:"Sign in to view"} detail="Global per-payment limit" Icon={Gauge}/>
+            <MetricCard label="Latest observed payment" value={latest?lifecycle(latest.status,latest.decision,JSON.parse(latest.intentJson).ExpiresAtNs).label:"No activity loaded"} detail="From loaded delegation records" Icon={Activity} loading={observed.loading}/>
+          </section>
+          <div className="overview-grid"><section className="panel"><div className="panel-heading"><div><h2>Recent payment activity</h2><p>Risk decisions and payment outcomes, kept separate.</p></div><button className="text-button" onClick={()=>navigate("payments")}>View activity<ArrowUpRight size={14}/></button></div>{observed.error&&<Feedback message={observed.error}/>}<PaymentActivity payments={observed.payments} compact onOpenAgent={()=>navigate("agent")}/></section>
+          <div className="summary-stack"><section className="panel"><span className="section-kicker">NEEDS ATTENTION</span><h2>{pending.length?`${pending.length} observed payment${pending.length===1?"":"s"} need review`:observed.loading?"Checking activity…":!token||observed.error?"Activity not fully available":"No pending reviews observed"}</h2><p>{pending.length?"Review the security reasons before approving an assessment.":"Reviews appear here from the delegation records available to your wallet."}</p><button className="outline-button" onClick={()=>navigate("agent")}>Review AI payments</button></section>
+          <section className="panel"><h2>Spending setup</h2><dl className="summary-list"><div><dt>Current mode</dt><dd>{paymentMode==="owner"?"Owner approved":"Autonomous"}</dd></div><div><dt>Daily policy limit</dt><dd>{policy?`${nearDisplay(policy.dailyLimitYocto)} NEAR`:"Sign in to view"}</dd></div><div><dt>Selected delegation</dt><dd>{paymentMode==="delegated"?(activeView?.id??"None selected"):"Not used in this mode"}</dd></div>{paymentMode==="delegated"&&activeView?.state&&<><div><dt>Remaining attempt budget</dt><dd>{nearDisplay(activeView.remainingBudget)} NEAR</dd></div><div><dt>Expires</dt><dd>{new Date(Number(BigInt(activeView.state.expiresAtNs)/1000000n)).toLocaleString()}</dd></div></>}</dl><button className="text-button" onClick={()=>navigate("policies")}>Manage security & delegations<ArrowRight size={14}/></button></section></div></div>
+          <div className="quick-links"><button onClick={()=>navigate("assessment")}><ShieldAlert size={18}/><span><strong>Check a payment</strong><small>Assess risk before authorization</small></span><ArrowRight size={16}/></button><button onClick={()=>navigate("payments")}><Activity size={18}/><span><strong>Verify an outcome</strong><small>Inspect payment and network evidence</small></span><ArrowRight size={16}/></button></div>
+        </div>
+
+        <div hidden={currentNav!=="agent"} className="page-view" aria-label="AI payments">
+          <div className="mode-switch"><div><strong>Payment mode</strong><p>{paymentMode==="owner"?"Every payment requires separate owner authorization.":"An active delegation permits execution within owner-defined limits."}</p></div><label><span className="sr-only">Payment mode</span><select value={paymentMode} onChange={e=>setPaymentMode(e.target.value as "owner"|"delegated")}><option value="owner">Owner approved</option><option value="delegated" disabled={MANUAL_TESTING}>Autonomous payments</option></select></label></div>
+          <div hidden={paymentMode!=="owner"}><AgentTaskPanel token={token} isOwner={Boolean(token&&config&&accountId===config.owner)}/></div>
+          <div hidden={paymentMode!=="delegated"}><DelegationManager token={token} accountId={accountId} agent={config?.agent??""} isOwner={Boolean(token&&config&&accountId===config.owner)} section="payments" selectedId={selectedDelegation} onSelectId={setSelectedDelegation} onUpdated={refreshActivity}/></div>
+        </div>
+
+        <div hidden={currentNav!=="assessment"} className="page-view assessment-layout" aria-label="Risk assessment"><section className="panel risk-panel"><div className="panel-heading"><div><h2>Assess a payment</h2><p>A read-only security assessment. No funds will move.</p></div></div><div className="field-grid"><label className="field">Recipient<input value={recipient} onChange={e=>{setRecipient(e.target.value);resetAssessment();}} placeholder="recipient.testnet" autoComplete="off"/></label><label className="field">Amount (NEAR)<input value={amount} inputMode="decimal" onChange={e=>{setAmount(e.target.value);resetAssessment();}} placeholder="0.001"/></label></div><label className="field">Payment purpose<textarea rows={3} value={purpose} onChange={e=>{setPurpose(e.target.value);resetAssessment();}} placeholder="What is this payment for?"/></label><div className="action-row"><button className="primary-button" disabled={busy} onClick={()=>void assess()}>{busy?"Assessing…":"Assess payment"}</button><button className="outline-button" disabled={busy||!assessmentAllows||MANUAL_TESTING} onClick={()=>void prepare()}>Prepare owner authorization</button></div>{!token&&<p className="helper-text">Connect your wallet and sign in to assess a payment.</p>}
+          {risk&&freshRisk&&<RiskDecisionCard decision={risk.decision} reasons={risk.reasons}><p className="next-action">{risk.decision==="ALLOW"?"Next: prepare the payment for owner authorization. ALLOW does not authorize or execute it.":risk.decision==="WARN"?"Next: open AI payments and review the corresponding proposal. This assessment screen cannot approve WARN decisions.":"This payment cannot proceed. Review the reasons and your policy."}</p><TechnicalDetails label="Assessment context"><p>Risk score: {risk.riskScore}/100</p>{risk.aiExplanation&&<p>{risk.aiExplanation}</p>}</TechnicalDetails></RiskDecisionCard>}
+          {prepared&&<section className="prepared-result"><h3>Ready for owner authorization</h3><p>A wallet signature authorizes this intent. It does not prove that the recipient has been paid.</p><CopyValue value={prepared.paymentId}/>{!authorizationHash?<button className="primary-button" disabled={authorizing||!accountId||!token||MANUAL_TESTING} onClick={()=>void authorizePayment()}>{authorizing?"Waiting for wallet…":"Authorize in wallet"}</button>:<><StatusBadge tone="blue">Authorization submitted</StatusBadge><ExplorerLink hash={authorizationHash}/></>}<TechnicalDetails><pre>{JSON.stringify(prepared.transaction,null,2)}</pre></TechnicalDetails></section>}
+        </section><aside className="panel context-panel"><span className="section-kicker">HOW SENTINEL DECIDES</span><h2>One payment. Independent checks.</h2><p>Sentinel evaluates the recipient, available funds and your spending rules.</p><dl className="decision-guide"><div><StatusBadge tone="green">ALLOW</StatusBadge><p>Meets the current rules. Authorization or delegated authority is still required.</p></div><div><StatusBadge tone="amber">WARN</StatusBadge><p>Needs authenticated owner review and revalidation.</p></div><div><StatusBadge tone="red">BLOCK</StatusBadge><p>Cannot proceed. A warning approval cannot override a block.</p></div></dl></aside></div>
+
+        <div hidden={currentNav!=="policies"} className="page-view" aria-label="Security and delegations"><div className="tab-list" role="tablist" aria-label="Security settings"><button role="tab" aria-selected={policyTab==="global"} onClick={()=>setPolicyTab("global")}>Global policies</button><button role="tab" aria-selected={policyTab==="delegations"} onClick={()=>setPolicyTab("delegations")}>Spending delegations</button></div>
+          <section hidden={policyTab!=="global"} className="panel policy-panel" role="tabpanel" aria-label="Global policies"><div className="panel-heading"><div><h2>Global security policies</h2><p>Every payment remains subject to these contract rules.</p></div><StatusBadge tone={config?(config.paused?"amber":"green"):"neutral"}>{config?(config.paused?"Paused":"Protection active"):"Status unavailable"}</StatusBadge></div><div className="policy-summary-grid"><div><span>Maximum payment</span><strong>{policy?nearDisplay(policy.maxPerTransactionYocto):"—"}<small> NEAR</small></strong></div><div><span>Daily limit</span><strong>{policy?nearDisplay(policy.dailyLimitYocto):"—"}<small> NEAR</small></strong></div></div>{policy&&<div className="policy-visual"><span>Per-payment limit as a share of daily allowance</span><div className="policy-bar"><div style={{width:`${Math.min(100,pct)}%`}}/></div></div>}<p className="helper-text">Changes require an owner wallet transaction. Verify the values in your wallet before signing.</p><PolicyManager accountId={accountId} authenticated={!!token} paused={config?.paused??false} onUpdated={refresh} onNotify={(type,message)=>{if(type==="error"){setNotice("");setError(message);}else{setError("");setNotice(message);}}}/></section>
+          <div hidden={policyTab!=="delegations"} role="tabpanel" aria-label="Spending delegations"><DelegationManager token={token} accountId={accountId} agent={config?.agent??""} isOwner={Boolean(token&&config&&accountId===config.owner)} section="management" selectedId={selectedDelegation} onSelectId={setSelectedDelegation} onUpdated={refreshActivity}/></div>
+        </div>
+
+        <div hidden={currentNav!=="payments"} className="page-view" aria-label="Transactions"><section className="panel"><div className="panel-heading"><div><h2>Payment activity</h2><p>Observed delegation records. A transaction report alone is not settlement evidence.</p></div>{observed.loading&&<span className="helper-text">Loading…</span>}</div>{observed.error&&<Feedback message={observed.error}/>}<PaymentActivity payments={observed.payments} onOpenAgent={()=>navigate("agent")}/><p className="table-caption">Latest records from up to 20 loaded delegations. This is not a complete account transaction history.</p></section>
+          <section className="panel transactions-panel"><div className="panel-heading"><div><h2>Look up a payment</h2><p>Check any known Sentinel payment ID, including owner-approved payments.</p></div></div><label className="field"><span className="sr-only">Payment ID</span><div className="payment-search"><input placeholder="Enter payment ID" value={paymentId} onChange={e=>setPaymentId(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&paymentId.trim())void lookupPayment();}}/><button className="primary-button" disabled={busy||!paymentId.trim()} onClick={()=>void lookupPayment()}>{busy?"Checking…":"Check payment"}</button></div></label>{payment?<div className="payment-result"><div className="panel-heading"><div><h3>{nearDisplay(payment.amountYocto)} NEAR</h3><p>To {payment.recipient}</p></div><PaymentStatus status={payment.status} expiry={payment.expiresAtNs}/></div><CopyValue value={payment.id}/><p className="helper-text">Status read from the contract. Authorized is not settled; Executing is pending confirmation.</p>{payment.status==="Authorized"&&<button className="primary-button" disabled={executing||!token||MANUAL_TESTING} onClick={()=>void executePayment()}>{executing?"Requesting execution…":"Request agent execution"}</button>}{!token&&<p className="helper-text">Sign in to request execution. A payment lookup does not sign a transaction.</p>}</div>:<EmptyState title="Check the network record">Paste a payment ID to see its current contract status.</EmptyState>}</section>
+        </div>
+        <footer className="page-footer"><span>{lastSync?`Contract data refreshed ${lastSync.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}`:"Contract data not yet available"}</span><span>Policy checks → Owner authority → Restricted signing → Network verification</span></footer>
+      </main>
+    </div>
+  </div>;
+}
+'''
+p.write_text(s,encoding='utf-8')

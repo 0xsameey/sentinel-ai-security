@@ -1,0 +1,6 @@
+version: 1
+name: sentinel-near-testnet
+interceptRequests: true
+scenarios:
+  - name: default
+    path: default.js

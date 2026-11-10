@@ -1,0 +1,56 @@
+{
+  "status": "blocked: configured agent key is absent; deployment lacks current-source 24-hour expiry ceiling",
+  "network": "testnet",
+  "contractId": "0xsameey-sentinel-v2.testnet",
+  "agentAccountId": "0xsameey-agent.testnet",
+  "recipient": "0xsameey-agent.testnet",
+  "recipientRequirement": "User-controlled testnet account, already allowlisted; no policy or allowlist changes",
+  "amountNear": "0.001",
+  "amountYocto": "1000000000000000000000",
+  "purpose": "Sentinel Milestone 1B controlled end-to-end verification payment",
+  "authorizationLifetimeSeconds": 900,
+  "combinedNetworkFeeCeilingNear": "0.01",
+  "authorization": {
+    "method": "authorize_payment",
+    "gas": "30000000000000",
+    "deposit": "0",
+    "signer": "verified contract owner"
+  },
+  "execution": {
+    "method": "execute_payment",
+    "gas": "30000000000000",
+    "deposit": "0",
+    "signer": "verified restricted agent key"
+  },
+  "paymentId": null,
+  "expiresAtNs": null,
+  "approvalReceived": false,
+  "transactionsSubmitted": false,
+  "requiredEvidence": [
+    "Finalized testnet block and deployed code identity",
+    "Configured signer public key exists with exact execute_payment receiver/method restriction",
+    "Verified gas allowance and estimated fees within ceiling",
+    "Controlled recipient is already allowlisted; exact risk assessment ALLOW",
+    "Treasury available balance and remaining daily quotas cover payment",
+    "Owner authorization hash, agent execution hash and final receipts",
+    "Contract Completed, recipient balance delta and database Completed",
+    "Two verified attempts; duplicate report does not add another attempt",
+    "Existing-hash recovery/sync; no resubmission after ambiguous outcomes"
+  ],
+  "snapshotEvidence": {
+    "checkedAtUtc": "2026-11-03T09:48:00.502Z",
+    "blockHeight": 276032369,
+    "recipientExists": true,
+    "recipientAllowlisted": true,
+    "policyPreview": "ALLOW",
+    "maxPerTransactionNear": "0.1",
+    "dailyLimitNear": "0.5",
+    "availableBalanceNear": "7.9384796987477071",
+    "combinedGasAtObservedPriceNear": "0.006",
+    "signerPermission": "missing key confirmed by direct error and complete key list",
+    "deployedMatchesExistingTargetNearArtifact": true,
+    "deployedMatchesFreshRawRelease": false,
+    "sourceDifference": "Exact byte reproduction: deployed code lacks the current 24-hour authorization-expiry guard"
+  },
+  "nextStep": "Review proposed agent-key correction and current-source contract upgrade; require explicit approval before any key/configuration/deployment change."
+}

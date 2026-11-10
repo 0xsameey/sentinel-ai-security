@@ -1,0 +1,10 @@
+[package]
+name = "sentinel-state-rehearsal"
+version = "0.1.0"
+edition = "2021"
+[dependencies]
+sentinel-contract = { path = "../../contracts/sentinel-contract-starter/sentinel-contract" }
+near-sdk = { version = "=5.29.1", features = ["unit-testing", "legacy"] }
+borsh = "1"
+serde_json = "1"
+base64 = "0.22"

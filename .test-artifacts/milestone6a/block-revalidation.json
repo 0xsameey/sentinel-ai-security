@@ -1,0 +1,9 @@
+{
+  "checkedAtUtc": "2026-11-04T15:17:36.163Z",
+  "readOnly": true,
+  "verified": false,
+  "blocker": {
+    "type": "TypeError",
+    "code": "EACCES"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "sentinel-agent-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-strip-types src/server.mjs",
+    "demo:real": "node --experimental-strip-types demo/real.mjs",
+    "smoke:real": "node --experimental-strip-types demo/smoke.mjs",
+    "claude:readiness": "node --experimental-strip-types demo/claude-readiness.mjs",
+    "demo:fixture": "node --experimental-strip-types demo/fixture.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  },
+  "dependencies": {
+    "openai": "^7.47.0"
+  }
+}

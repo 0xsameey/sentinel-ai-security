@@ -1,0 +1,30 @@
+[
+  {
+    "path": ".test-artifacts/milestone1b/diagnostic-deployed.wasm",
+    "metadata": {
+      "version": "0.1.0",
+      "link": null,
+      "standards": [
+        {
+          "standard": "nep330",
+          "version": "1.3.0"
+        }
+      ],
+      "build_info": null
+    }
+  },
+  {
+    "path": ".test-artifacts/milestone1b/current-source-cfg-near.wasm",
+    "metadata": {
+      "version": "0.1.0",
+      "link": null,
+      "standards": [
+        {
+          "standard": "nep330",
+          "version": "1.3.0"
+        }
+      ],
+      "build_info": null
+    }
+  }
+]

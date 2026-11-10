@@ -1,0 +1,39 @@
+{
+  "network": "testnet",
+  "contract": "0xsameey-sentinel-v2.testnet",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "flags": "-C link-arg=-s --cfg near",
+  "optimizer": "wasm-opt 0.116.1; size; TruncSat; BulkMemory",
+  "deployed": false,
+  "files": [
+    {
+      "sha256": "56586b928db0eef5bcfd40c1cbd48706ac43b3b652bfb352c235e01c6b6b657e",
+      "path": "contracts/sentinel-contract-starter/sentinel-contract/src/lib.rs"
+    },
+    {
+      "sha256": "57477eca47d98120c2d06cb43ada4078dafa140530f1864582e32d41549e6686",
+      "path": "contracts/sentinel-contract-starter/sentinel-contract/src/delegation.rs"
+    },
+    {
+      "sha256": "8ee91aeb04c049550aad77d4e94cf9534842220e91a7148c317c091f39f8aa58",
+      "path": "contracts/sentinel-contract-starter/sentinel-contract/Cargo.lock"
+    },
+    {
+      "sha256": "0676588fc50865c6708237c01eae6b754133cec63ebc5cf6d9fd2db279dcb7d9",
+      "path": "tools/wasm-artifact-opt/Cargo.lock"
+    },
+    {
+      "sha256": "9c31638b4c4f8039af236eabe3016dc8b910cd278131b4965f4dcb173081a926",
+      "path": "tools/wasm-artifact-opt/target/debug/sentinel-wasm-artifact-opt.exe"
+    },
+    {
+      "sha256": "d7b22c988656ccbc16c4753816002443010d43edd1777906782f8198c37f0de7",
+      "path": ".test-artifacts\\milestone5b-release-68507c54eae64259b97277e4e0b5de1e/raw.wasm"
+    },
+    {
+      "sha256": "3fdb4299956bbd008fe4851bf0dede4354253c2f4c9b9d0a3974d6010d9ae645",
+      "path": ".test-artifacts\\milestone5b-release-68507c54eae64259b97277e4e0b5de1e/corrected.wasm"
+    }
+  ],
+  "reviewedCodeHash": "5JGbnZu5NUppt922dqjtAH6oTixkVkXEKcynUqjjHTyE"
+}

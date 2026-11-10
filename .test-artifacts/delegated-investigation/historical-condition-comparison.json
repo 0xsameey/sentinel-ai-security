@@ -1,0 +1,22 @@
+[
+    {
+        "id":  "ba5ae6da-7000-4af5-b9a0-f04fa2f74a5a",
+        "paymentOutlivesDelegation":  true,
+        "maxPaymentPass":  true,
+        "aggregatePass":  true,
+        "dailyPass":  true,
+        "recipientAllowed":  true,
+        "revoked":  false,
+        "agentMatches":  true
+    },
+    {
+        "id":  "651f726c-343a-40b9-b89d-55a03e2a1af6",
+        "paymentOutlivesDelegation":  true,
+        "maxPaymentPass":  true,
+        "aggregatePass":  true,
+        "dailyPass":  true,
+        "recipientAllowed":  true,
+        "revoked":  false,
+        "agentMatches":  true
+    }
+]

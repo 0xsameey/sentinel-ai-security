@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.json
+**/.near-credentials/
+
+# Dependencies and build outputs
+node_modules/
+dist/
+bin/
+obj/
+.vs/
+.vscode/
+coverage/
+TestResults/
+
+# Local development files
+*.log
+*.user
+*.suo
+
+# Rust compilation artifacts
+target/
+**/target/

@@ -1,0 +1,311 @@
+{
+  "checkedAtUtc": "2026-11-04T15:21:07.194Z",
+  "runtime": "Node v22.19.0 / V8 12.4.254.21-node.29",
+  "actualWasmExecuted": true,
+  "nearMeteredVm": false,
+  "readOnlyHostAdapter": true,
+  "gasAndReceiptsVerified": false,
+  "blockHash": "ChNENKfyxqoT1MocmA2bYS5wogpdGj89k3624qeiyJkJ",
+  "deployedSha256": "f32867464baa1f9e74a7d7506e474e3dc0ab07f1424bc646cb132dd154782834",
+  "proposedSha256": "3fdb4299956bbd008fe4851bf0dede4354253c2f4c9b9d0a3974d6010d9ae645",
+  "stateSha256": "f128877ae1f8bd2e6baaf73dd15eabe31c488fd6e36a1662290ec4efe2d4c10c",
+  "allStoragePreserved": true,
+  "comparedViewCases": 17,
+  "actualWasmInvocations": 46,
+  "results": [
+    {
+      "method": "get_config",
+      "args": {},
+      "old": [
+        "0xsameey-owner.testnet",
+        "0xsameey-agent.testnet",
+        false
+      ],
+      "proposed": [
+        "0xsameey-owner.testnet",
+        "0xsameey-agent.testnet",
+        false
+      ],
+      "match": true
+    },
+    {
+      "method": "get_policy",
+      "args": {},
+      "old": {
+        "max_per_transaction": "100000000000000000000000",
+        "daily_limit": "500000000000000000000000"
+      },
+      "proposed": {
+        "max_per_transaction": "100000000000000000000000",
+        "daily_limit": "500000000000000000000000"
+      },
+      "match": true
+    },
+    {
+      "method": "get_daily_usage",
+      "args": {},
+      "old": [
+        "20761",
+        "0",
+        "0",
+        "0"
+      ],
+      "proposed": [
+        "20761",
+        "0",
+        "0",
+        "0"
+      ],
+      "match": true
+    },
+    {
+      "method": "get_available_balance",
+      "args": {},
+      "old": "7938479698747707100000000",
+      "proposed": "7938479698747707100000000",
+      "match": true
+    },
+    {
+      "method": "is_recipient_allowed",
+      "args": {
+        "recipient": "0xsameey-agent.testnet"
+      },
+      "old": true,
+      "proposed": true,
+      "match": true
+    },
+    {
+      "method": "is_recipient_allowed",
+      "args": {
+        "recipient": "not-approved-m6a.testnet"
+      },
+      "old": false,
+      "proposed": false,
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "69a83aa39671459a9be2f7faff0bfd43"
+      },
+      "old": {
+        "id": "69a83aa39671459a9be2f7faff0bfd43",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "100000000000000000000000",
+        "expires_at_ns": "1793491369133000000",
+        "status": "Completed"
+      },
+      "proposed": {
+        "id": "69a83aa39671459a9be2f7faff0bfd43",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "100000000000000000000000",
+        "expires_at_ns": "1793491369133000000",
+        "status": "Completed"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "522e1f7d1c374f278b173728e087a4dc"
+      },
+      "old": {
+        "id": "522e1f7d1c374f278b173728e087a4dc",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793622430464000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "522e1f7d1c374f278b173728e087a4dc",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793622430464000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "4fa5c7545bde486ca7938bb106b3616a"
+      },
+      "old": {
+        "id": "4fa5c7545bde486ca7938bb106b3616a",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793622831594000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "4fa5c7545bde486ca7938bb106b3616a",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793622831594000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "3e1d4efbd9674534acc5e82f78a24b2d"
+      },
+      "old": {
+        "id": "3e1d4efbd9674534acc5e82f78a24b2d",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793622902831000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "3e1d4efbd9674534acc5e82f78a24b2d",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793622902831000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "a7c61072677b46c3840a6608c927f2b7"
+      },
+      "old": {
+        "id": "a7c61072677b46c3840a6608c927f2b7",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793623005118000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "a7c61072677b46c3840a6608c927f2b7",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793623005118000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "ecf7297bc72c4154ab498bff935c3019"
+      },
+      "old": {
+        "id": "ecf7297bc72c4154ab498bff935c3019",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793623109342000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "ecf7297bc72c4154ab498bff935c3019",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793623109342000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "49e11636a8b8479e9dcdf34540099aa9"
+      },
+      "old": {
+        "id": "49e11636a8b8479e9dcdf34540099aa9",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793623141452000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "49e11636a8b8479e9dcdf34540099aa9",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793623141452000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "466dace227da4aa987b7b7c9401b2e16"
+      },
+      "old": {
+        "id": "466dace227da4aa987b7b7c9401b2e16",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793624867947000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "466dace227da4aa987b7b7c9401b2e16",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793624867947000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "8c0856391da6425b98d0c03c34fc801c"
+      },
+      "old": {
+        "id": "8c0856391da6425b98d0c03c34fc801c",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793624890225000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "8c0856391da6425b98d0c03c34fc801c",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793624890225000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "4ca0f4eb041a4c28a3817d11b6327d58"
+      },
+      "old": {
+        "id": "4ca0f4eb041a4c28a3817d11b6327d58",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793625610911000000",
+        "status": "Authorized"
+      },
+      "proposed": {
+        "id": "4ca0f4eb041a4c28a3817d11b6327d58",
+        "recipient": "0xsameey-agent.testnet",
+        "amount_yocto": "50000000000000000000000",
+        "expires_at_ns": "1793625610911000000",
+        "status": "Authorized"
+      },
+      "match": true
+    },
+    {
+      "method": "get_payment",
+      "args": {
+        "id": "m6a-absent-payment"
+      },
+      "old": null,
+      "proposed": null,
+      "match": true
+    }
+  ],
+  "proposedDelegationAbsent": true,
+  "legacyPaymentBindingsAbsent": true,
+  "codeSizeDeltaBytes": 31824,
+  "projectedAvailableAfterCodeGrowthYocto": "7620239698747707100000000",
+  "limitations": "Actual V8 WASM execution with simulated read-only host context. No NEAR instrumentation/metering, protocol validation, transactions, promise scheduling, callbacks, receipt rollback, chain proof or code deployment was tested."
+}

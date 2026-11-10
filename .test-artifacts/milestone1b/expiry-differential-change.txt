@@ -1,0 +1,8 @@
+        const MAX_PAYMENT_LIFETIME_NS: u64 = 86_400_000_000_000;
+
+        require!(
+            expires_at_ns.0 <=
+                env::block_timestamp()
+                    .saturating_add(MAX_PAYMENT_LIFETIME_NS),
+            "Payment authorization exceeds 24 hours"
+        );

@@ -1,0 +1,58 @@
+purpose:
+  stands_in_for: NEAR testnet view-function and final transaction RPC responses only.
+  unblocks: Local API, PostgreSQL and worker integration without live keys or transfers.
+assumptions:
+  - id: milestone5b-delegated-autonomy
+    status: supported
+    claim: The real local API, PostgreSQL, provider-independent agent and isolated executor enforce delegated proposals, human WARN approval and single-use exact-intent permits against simulated finalized chain state.
+    reason: Milestone 5B adds on-chain spending limits and additive delegated APIs, with separate restricted signer mode and no model management tools. Rust tests and an offline policy-state layout rehearsal pass.
+    verification: 35 Rust, 40 .NET unit, 21 PostgreSQL HTTP integration, 72 agent/provider, 31 signer and 3 dashboard render tests passed; automated skips zero. The attack demo verifies delegated ALLOW/WARN/BLOCK, exhausted budget, revocation, failed transfer and replay. Real NEAR VM receipts, live signing and live Claude remain unverified.
+    source: docs/milestone-5b-verification.md; .test-artifacts/milestone5b-verified-final.log
+    updated_at: "2026-11-04"
+  - id: milestone4-provider-independent-local-boundary
+    status: supported
+    claim: Under the repository-owned NEAR HTTP fixture, both provider adapters use the same gateway and cannot replace its decisions or authorize signing through model tools.
+    reason: The same agent loop, authenticated task API and PostgreSQL gateway workflow passed for OpenAI and Anthropic SDK method doubles; the demo also verifies actual approval and permit boundaries over HTTP.
+    verification: On 2026-11-03, 40 unit, 13 integration, 55 agent/provider, 25 signer, 18 diagnostic and 10 contract tests passed. The demo verifier exercised invoice blocklist evidence, redirected task rejection, ALLOW/WARN simulated completion, expiry, changed policy, forged approvals and permit replay. Upstream chain/model responses were explicit doubles. Official Claude SDK installation and live model/NEAR behavior remain unverified; interactive browser QA was stopped by the UI tool URL-policy failure.
+    source: docs/milestone-4-verification.md; tools/Sentinel.Demo/Program.cs; src/sentinel-agent-client/tests/providers.test.mjs; tests/Sentinel.IntegrationTests/GatewayFlowTests.cs; .test-artifacts/milestone4-verified.log
+    updated_at: "2026-11-03"
+  - id: milestone3-agent-boundary
+    status: supported
+    claim: The TypeScript agent cannot replace gateway decisions, broaden task constraints, approve WARN or invoke signing through its tool interface.
+    reason: Agent tool dispatch is bounded and strictly validated; task API retrieves a persisted run-bound assessment, and existing approval/permit enforcement remains active.
+    verification: Local deterministic agent and PostgreSQL HTTP scenarios exercise ALLOW/WARN/BLOCK, forged runner responses, recipient injection, budget limits and replay. OpenAI SDK download and real model requests remain blocked by network restrictions and unavailable process environment credentials; no real-model success is claimed.
+    source: src/sentinel-agent-client/tests/agent.test.mjs; tests/Sentinel.IntegrationTests/GatewayFlowTests.cs; docs/milestone-3.md; .test-artifacts/milestone3-verified.log
+    updated_at: "2026-11-03"
+  - id: milestone2-gateway-local
+    status: supported
+    claim: The deterministic gateway rejects unsafe and unapproved payment execution through the API and isolated worker handoff.
+    reason: All 40 unit and 10 integration tests passed, including isolated PostgreSQL migrations, approval validation/replay protection, missing or unrestricted keys, unreviewed code and existing payment reconciliation. The signer suite has 25 passing tests.
+    verification: On 2026-11-03 ran tests/run-milestone2.ps1. NEAR and NearBlocks responses and submission were synthetic in test composition only. Production release gate was exercised without a bypass. Postman storage remains unavailable; Node served the same mock handler. Live release prerequisites remain blocked.
+    source: tests/Sentinel.IntegrationTests/GatewayFlowTests.cs; tests/Sentinel.UnitTests/GatewayRiskTests.cs; .test-artifacts/milestone2-verification.log; docs/milestone-2.md
+    updated_at: "2026-11-03"
+  - id: postgres-payment-recovery
+    status: supported
+    claim: Under the local NEAR fixture, the real API persists completed payments in PostgreSQL and recovers a lost execution report through sync and idempotent existing-hash reporting.
+    reason: The full scenario passed against PostgreSQL 18.2 in an isolated schema; a later read-only query found two Completed payments and four Verified attempts.
+    verification: On 2026-11-03, ran tools/Sentinel.Verification pg-e2e with schema sentinel_e2e_20261103092157_c5ed2079. All six integration tests passed. Chain submission and RPC were synthetic; whole-process restart and real testnet recovery remain unverified.
+    source: tests/Sentinel.IntegrationTests/PaymentFlowTests.cs; .test-artifacts/milestone1-63db657397cf42bc8a32f30a2d64f2b1; tools/Sentinel.Verification/Program.cs
+    updated_at: "2026-11-03"
+  - id: local-fixture-view-encoding
+    status: supported
+    claim: The Node fallback serves get_config as UTF-8 JSON encoded in a byte array and records the RPC call.
+    reason: A local HTTP query decoded to the configured owner, agent and pause tuple, and calls included get_config.
+    verification: On 2026-11-03, queried health, get_config and calls over localhost using the Node fallback. Postman startup failed before serving requests because dataset storage was inaccessible. Real NEAR behavior remains unverified.
+    source: tests/run-near-fixture.cjs; postman/mocks/near/default.js
+    updated_at: "2026-11-03"
+  - id: real-near-settlement
+    status: unknown
+    claim: Real NEAR receipts and callbacks settle as represented by the fixture.
+    reason: The fixture is derived from repository RPC consumers, not a deployed contract or VM.
+    verification: Not verified against live NEAR; requires a separate testnet smoke test.
+    source: src/Sentinel.Infrastructure/Near/NearTransactionVerifier.cs; postman/mocks/near/default.js
+    updated_at: "2026-11-03"
+fingerprints:
+  - id: milestone1-local
+    date: "2026-11-03"
+    commit: null
+    cli: "1.83.1"

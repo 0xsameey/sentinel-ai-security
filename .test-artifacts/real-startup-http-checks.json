@@ -1,0 +1,69 @@
+{
+  "checkedAtUtc": "2026-11-05T11:41:55.906Z",
+  "realApplication": true,
+  "tests": [
+    {
+      "name": "CORS localhost allowed",
+      "status": 204,
+      "allowOrigin": "http://localhost:5173"
+    },
+    {
+      "name": "dispatch disabled",
+      "status": 503,
+      "allowOrigin": null
+    },
+    {
+      "name": "delegated tasks disabled",
+      "status": 503,
+      "allowOrigin": null
+    },
+    {
+      "name": "anonymous auth rejected",
+      "status": 401,
+      "allowOrigin": null
+    },
+    {
+      "name": "live balance",
+      "status": 500,
+      "allowOrigin": null,
+      "response": {
+        "title": "An unexpected error occurred",
+        "status": 500,
+        "detail": "The request could not be completed.",
+        "instance": "/api/v1/contract/balance",
+        "traceId": "0HNPR675L8DSL:00000001"
+      }
+    },
+    {
+      "name": "live config",
+      "status": 500,
+      "allowOrigin": null,
+      "response": {
+        "title": "An unexpected error occurred",
+        "status": 500,
+        "detail": "The request could not be completed.",
+        "instance": "/api/v1/contract/config",
+        "traceId": "0HNPR675L8DSK:00000001"
+      }
+    },
+    {
+      "name": "database health",
+      "status": 200,
+      "allowOrigin": null
+    },
+    {
+      "name": "real database auth challenge",
+      "status": 200,
+      "allowOrigin": null
+    },
+    {
+      "name": "forged wallet signature rejected",
+      "status": 401,
+      "allowOrigin": null
+    }
+  ],
+  "authChallenge": {
+    "nonce32Bytes": true,
+    "expiryInFuture": true
+  }
+}
