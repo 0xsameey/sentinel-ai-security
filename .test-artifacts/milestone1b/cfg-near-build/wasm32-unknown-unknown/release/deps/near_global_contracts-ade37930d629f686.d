@@ -1,9 +1,0 @@
-C:\Users\PC\Documents\hackerthon\Sentinel\.test-artifacts/milestone1b/cfg-near-build\wasm32-unknown-unknown\release\deps\near_global_contracts-ade37930d629f686.d: C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\lib.rs C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\global_contract_identifier.rs C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\state_init.rs
-
-C:\Users\PC\Documents\hackerthon\Sentinel\.test-artifacts/milestone1b/cfg-near-build\wasm32-unknown-unknown\release\deps\libnear_global_contracts-ade37930d629f686.rlib: C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\lib.rs C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\global_contract_identifier.rs C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\state_init.rs
-
-C:\Users\PC\Documents\hackerthon\Sentinel\.test-artifacts/milestone1b/cfg-near-build\wasm32-unknown-unknown\release\deps\libnear_global_contracts-ade37930d629f686.rmeta: C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\lib.rs C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\global_contract_identifier.rs C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\state_init.rs
-
-C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\lib.rs:
-C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\global_contract_identifier.rs:
-C:\Users\PC\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\near-global-contracts-0.2.6\src\state_init.rs:

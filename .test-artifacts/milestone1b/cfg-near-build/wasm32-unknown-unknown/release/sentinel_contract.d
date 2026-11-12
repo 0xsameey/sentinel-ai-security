@@ -1,1 +1,0 @@
-C:\Users\PC\Documents\hackerthon\Sentinel\.test-artifacts/milestone1b/cfg-near-build\wasm32-unknown-unknown\release\sentinel_contract.wasm: C:\Users\PC\Documents\hackerthon\Sentinel\.test-artifacts\milestone1b\expiry-differential\src\lib.rs

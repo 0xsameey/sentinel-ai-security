@@ -27,3 +27,7 @@ TestResults/
 # Rust compilation artifacts
 target/
 **/target/
+
+# Generated test artifacts
+.test-artifacts/
+**/.test-artifacts/
